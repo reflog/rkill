@@ -1,5 +1,9 @@
 [package]
 name = "rkill"
+description = "kill process by name, pid or port number"
+license = "MIT"
+documentation = "https://github.com/reflog/rkill"
+homepage = "https://github.com/reflog/rkill"
 version = "0.1.0"
 authors = ["Eli Yukelzon <reflog@gmail.com>"]
 edition = "2018"
