@@ -1,8 +1,9 @@
 use colored::*;
-use heim::process::Process;
+use heim::process::{Pid, Process};
 use netstat2::{get_sockets_info, AddressFamilyFlags, ProtocolFlags, ProtocolSocketInfo};
 use seahorse::App;
 use smol::stream::StreamExt;
+use std::convert::TryInto;
 use std::env;
 
 #[derive(Debug)]
@@ -22,7 +23,8 @@ fn ports_to_processes() -> Vec<ProcessPort> {
             if si.associated_pids.len() == 0 {
                 continue;
             }
-            if let Ok(p) = heim::process::get(si.associated_pids[0]).await {
+            let pid: Pid = si.associated_pids[0].try_into().unwrap();
+            if let Ok(p) = heim::process::get(pid).await {
                 match si.protocol_socket_info {
                     ProtocolSocketInfo::Tcp(tcp_si) => result.push(ProcessPort {
                         port: tcp_si.local_port,
